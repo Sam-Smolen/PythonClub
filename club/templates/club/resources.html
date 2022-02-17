@@ -5,11 +5,13 @@
     <tr>
         <th>Name</th>
         <th>Type XXXX</th>
+        <th>User ID</th>
     </tr>
     {% for r in resource_list %}
       <tr>
           <td>{{ r.resourcename }}</td>
           <td>{{ r.resourcetype }}</td>
+          <td>{{ r.userid }}</td>
       </tr>
    
     {% endfor %}
