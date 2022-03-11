@@ -1,6 +1,8 @@
 from django.test import TestCase
 from .models import Meeting, MeetingMinutes, Resource, Event
-import datetime 
+import datetime
+from .forms import MeetingForm
+from django.urls import reverse_lazy, reverse
 
 # Create your tests here.
 class MeetingTest(TestCase):
@@ -100,3 +102,12 @@ class EventTest(TestCase):
         event=self.setup()
         self.assertEqual(str(event.description), 'test description')
    
+
+class New_Meeting_Authentification_Test(TestCase):
+    def setup(self):
+        self.test_user=User.objects.create_user(username='testuser1', password='p@ssw0rd1')
+        self.meeting=Meeting.objects.create(meetingtitle='Sams meeting',meetingdate='2022/02/04',meetingtime='2022/02/04 15:04:12-08', location='Seattle', agenda='A meeting')
+
+    def test_redirect_if_not_logged_in(self):
+        response=self.client.get(reverse('newmeeting'))
+        self.assertRedirects(response, '/accounts/login/?next=/club/newmeeting/')
